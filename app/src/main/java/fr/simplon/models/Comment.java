@@ -7,24 +7,28 @@ public class Comment {
     private String comment;
     private Long id;
     private LocalDateTime createAt;
+    private User user;
     private Post post;
 
-    public Comment(String comment, Long id, LocalDateTime createAt, Post post) {
+
+    public Comment(String comment, Long id, LocalDateTime createAt, User user, Post post) {
         this.comment = comment;
         this.id = id;
         this.createAt = createAt;
+        this.user = user;
         this.post = post;
     }
-
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
+
         this.comment = comment;
     }
 
     public Long getId() {
+
         return id;
     }
 
@@ -33,18 +37,29 @@ public class Comment {
     }
 
     public LocalDateTime getCreateAt() {
+
         return createAt;
     }
 
     public void setCreateAt(LocalDateTime createAt) {
+
         this.createAt = createAt;
     }
 
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+
+    }
     public Post getPost() {
         return post;
     }
 
     public void setPost(Post post) {
         this.post = post;
+
     }
 }
+
