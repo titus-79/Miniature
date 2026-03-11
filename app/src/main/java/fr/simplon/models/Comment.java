@@ -7,11 +7,13 @@ public class Comment {
     private String comment;
     private Long id;
     private LocalDateTime createAt;
+    private User user;
 
-    public Comment(String comment, Long id, LocalDateTime createAt) {
+    public Comment(String comment, Long id, LocalDateTime createAt, User user) {
         this.comment = comment;
         this.id = id;
         this.createAt = createAt;
+        this.user = user;
     }
 
 
@@ -20,10 +22,12 @@ public class Comment {
     }
 
     public void setComment(String comment) {
+
         this.comment = comment;
     }
 
     public Long getId() {
+
         return id;
     }
 
@@ -32,10 +36,18 @@ public class Comment {
     }
 
     public LocalDateTime getCreateAt() {
+
         return createAt;
     }
 
     public void setCreateAt(LocalDateTime createAt) {
+
         this.createAt = createAt;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 }
