@@ -6,10 +6,12 @@ public class Like {
     
     private Long id;
     private LocalDateTime createdAt;
+    private Post post;
     
-    public Like(Long id, LocalDateTime createdAt) {
+    public Like(Long id, LocalDateTime createdAt, Post post) {
         this.id = id;
         this.createdAt = createdAt;
+        this.post = post;
     }
 
     public Long getId() {
@@ -26,6 +28,14 @@ public class Like {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
     
 }
