@@ -8,15 +8,16 @@ public class Comment {
     private Long id;
     private LocalDateTime createAt;
     private User user;
+    private Post post;
 
-    public Comment(String comment, Long id, LocalDateTime createAt, User user) {
+
+    public Comment(String comment, Long id, LocalDateTime createAt, User user, Post post) {
         this.comment = comment;
         this.id = id;
         this.createAt = createAt;
         this.user = user;
+        this.post = post;
     }
-
-
     public String getComment() {
         return comment;
     }
@@ -44,10 +45,21 @@ public class Comment {
 
         this.createAt = createAt;
     }
+
     public User getUser() {
         return user;
     }
     public void setUser(User user) {
         this.user = user;
+
+    }
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+
     }
 }
+
