@@ -1,16 +1,16 @@
 package fr.simplon.models;
 
-public class Attachement {
+public class Attachment {
 
     private Long id;
     private String link;
     private String image;
     private String video;
     private String document;
-    private AttachementType type;
+    private AttachmentType type;
 
-    public Attachement(Long id, String link, String image,
-                       String video, String document, AttachementType type) {
+    public Attachment(Long id, String link, String image,
+                       String video, String document, AttachmentType type) {
         this.id = id;
         this.link = link;
         this.image = image;
@@ -19,11 +19,11 @@ public class Attachement {
         this.type = type;
     }
 
-    public AttachementType getType() {
+    public AttachmentType getType() {
         return type;
     }
 
-    public void setType(AttachementType type) {
+    public void setType(AttachmentType type) {
         this.type = type;
     }
 
