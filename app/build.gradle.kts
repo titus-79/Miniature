@@ -16,6 +16,10 @@ repositories {
 }
 
 dependencies {
+    var tomcatVersion = "11.0.18"
+    implementation ("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
+    implementation ("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}")
+   
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
 
@@ -34,7 +38,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "fr.simplon.App"
 }
 
 tasks.named<Test>("test") {
