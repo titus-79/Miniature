@@ -16,7 +16,7 @@
     <nav>
         <a href="/" class="nav__logo">Miniature</a>
         <ul class="nav__links">
-            <li><a href="#">Explorer</a></li>
+            <li><a href="feed.jsp">Explorer</a></li>
             <li><a href="#">À propos</a></li>
         </ul>
     </nav>

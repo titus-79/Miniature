@@ -44,7 +44,7 @@ public class RegisterController extends HttpServlet {
             session.setAttribute("user", newUser);
 
             System.out.println("valider :" + newUser);
-            resp.sendRedirect("/");
+            resp.sendRedirect("/feed");
 
         } else {
             System.out.println("Champs invalides ou mots de passe différents");
