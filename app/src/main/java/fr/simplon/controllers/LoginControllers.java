@@ -2,6 +2,7 @@ package fr.simplon.controllers;
 
 import fr.simplon.models.User;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,13 +11,13 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@WebServlet
 public class LoginControllers extends HttpServlet {
 
    private static final List<User> users = List.of(
            new User(1L, "alice", "alice@mail.com", "password123", LocalDateTime.now()),
-           new User(2L, "bob", "bob@mail.com", "secret456", LocalDateTime.now()),
-           new User(3L, "harry", "harry@mail.com", "admin789", LocalDateTime.now())
+           new User(2L, "bob", "bob@mail.com", "password456", LocalDateTime.now()),
+           new User(3L, "harry", "harry@mail.com", "password789", LocalDateTime.now())
 
    );
     @Override
