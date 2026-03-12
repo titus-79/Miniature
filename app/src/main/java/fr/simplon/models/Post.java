@@ -6,12 +6,14 @@ import java.util.List;
 public class Post {
     
     private Long id;
+    private String title;
     private String content;
     private LocalDateTime createdAt;
     private boolean isDraft;
     
-    public Post(Long id, String content, LocalDateTime createdAt, boolean isDraft) {
+    public Post(Long id, String title, String content, LocalDateTime createdAt, boolean isDraft) {
         this.id = id;
+        this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.isDraft = isDraft;
@@ -55,6 +57,14 @@ public class Post {
 
     public void addLike(Like like) {
         //TODO
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     // public List<Comment> getCommentSortedByDate() {

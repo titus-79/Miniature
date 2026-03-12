@@ -11,7 +11,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-@WebServlet
+
+@WebServlet("/login")
+
 public class LoginControllers extends HttpServlet {
 
    private static final List<User> users = List.of(
