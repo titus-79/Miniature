@@ -19,6 +19,7 @@ dependencies {
     var tomcatVersion = "11.0.18"
     implementation ("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
     implementation ("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}")
+    implementation("org.mindrot:jbcrypt:0.4")
    
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)

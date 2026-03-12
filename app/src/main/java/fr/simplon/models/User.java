@@ -4,14 +4,15 @@ import java.time.LocalDateTime;
 
 public class User {
 
-    Long id;
-    String userName;
-    String email;
-    String passwordHash;
-    LocalDateTime createAt;
+    private Long id;
+    private String userName;
+    private String email;
+    private String passwordHash;
+    private LocalDateTime createAt;
+    private static long compteur = 1;
 
     public User(Long id, String userName, String email,
-                String passwordHash, LocalDateTime createAt) {
+            String passwordHash, LocalDateTime createAt) {
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -59,19 +60,33 @@ public class User {
         this.createAt = createAt;
     }
 
-    public static void like(Post post){
-        //TODO
+    public static void like(Post post) {
+        // TODO
     }
-    public static void comment(Post post, String content){
-        //TODO
+
+    public static void comment(Post post, String content) {
+        // TODO
     }
-    public static void follow(User target){
-        //TODO
+
+    public static void follow(User target) {
+        // TODO
     }
-    public static void unfollow(User target){
-        //TODO
+
+    public static void unfollow(User target) {
+        // TODO
     }
-    public static void createPost(String content){
-        //TODO
+
+    public static void createPost(String content) {
+        // TODO
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", passwordHash=" + passwordHash
+                + ", createAt=" + createAt + "]";
+    }
+
+    public static long genererID() {
+        return compteur++;
     }
 }
