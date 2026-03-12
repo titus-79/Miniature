@@ -31,9 +31,6 @@
             <p class="label">Bienvenu</p>
             <h1>Connecter vous <em> à votre espace</em></h1>
 
-
-
-
             <% if (request.getAttribute("erreur") != null) { %>
             <p style="color:red;"><%= request.getAttribute("erreur") %></p>
             <% } %>
@@ -52,8 +49,9 @@
                 <input type="submit" class="btn-submit" value="Se connecter">
             </form>
         </div>
-
+    </div>
 </main>
+
 
 </body>
 </html>
