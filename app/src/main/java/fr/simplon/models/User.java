@@ -1,6 +1,8 @@
 package fr.simplon.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -11,6 +13,8 @@ public class User {
     private LocalDateTime createAt;
     private static long compteur = 1;
 
+    private final List<User> following = new ArrayList<>();
+
     public User(Long id, String userName, String email,
             String passwordHash, LocalDateTime createAt) {
         this.id = id;
@@ -18,6 +22,30 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.createAt = createAt;
+    }
+
+    public void follow(User target) {
+        if (target == null || target.getId().equals(this.id))
+            return;
+        if (!isFollowing(target)) {
+            following.add(target);
+        }
+    }
+
+    public void unfollow(User target) {
+        if (target == null)
+            return;
+        following.removeIf(u -> u.getId().equals(target.getId()));
+    }
+
+    public boolean isFollowing(User target) {
+        if (target == null)
+            return false;
+        return following.stream().anyMatch(u -> u.getId().equals(target.getId()));
+    }
+
+    public List<User> getFollowing() {
+        return following;
     }
 
     public Long getId() {
@@ -61,29 +89,18 @@ public class User {
     }
 
     public static void like(Post post) {
-        // TODO
-    }
+        /* TODO */ }
 
     public static void comment(Post post, String content) {
-        // TODO
-    }
-
-    public static void follow(User target) {
-        // TODO
-    }
-
-    public static void unfollow(User target) {
-        // TODO
-    }
+        /* TODO */ }
 
     public static void createPost(String content) {
-        // TODO
-    }
+        /* TODO */ }
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", passwordHash=" + passwordHash
-                + ", createAt=" + createAt + "]";
+        return "User [id=" + id + ", userName=" + userName + ", email=" + email
+                + ", passwordHash=" + passwordHash + ", createAt=" + createAt + "]";
     }
 
     public static long genererID() {
