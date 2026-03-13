@@ -1,6 +1,7 @@
 package fr.simplon.controllers;
 
 import fr.simplon.models.User;
+import fr.simplon.repositories.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,50 +10,34 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/login")
 
 public class LoginControllers extends HttpServlet {
 
-   private static final List<User> users = List.of(
-           new User(1L, "alice", "alice@mail.com", "password123", LocalDateTime.now()),
-           new User(2L, "bob", "bob@mail.com", "password456", LocalDateTime.now()),
-           new User(3L, "harry", "harry@mail.com", "password789", LocalDateTime.now())
+    private static final List<User> users = UserRepository.TOUS;
 
-   );
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User found = null;
-        for(User u : users){
+        for (User u : users) {
 
-
-        if (u.getUserName().equals(login)&& u.getPasswordHash().equals(password)){
-            found = u;
-            break;
+            if (u.getUserName().equals(login) && u.getPasswordHash().equals(password)) {
+                found = u;
+                break;
+            }
         }
-        }
-        if (found != null){
+        if (found != null) {
             HttpSession session = req.getSession();
             session.setAttribute("user", found);
-            System.out.println("connecter : "+ found.getUserName());
-            resp.sendRedirect(req.getContextPath() +"/feed");
-        }else{
-            System.out.println("Echec de connection :"+ login);
-            resp.sendRedirect(req.getContextPath()+ "/login");
+            System.out.println("connecter : " + found.getUserName());
+            resp.sendRedirect(req.getContextPath() + "/feed");
+        } else {
+            System.out.println("Echec de connection :" + login);
+            resp.sendRedirect(req.getContextPath() + "/login");
         }
-
-
-
-
     }
-
-
-
-
-
-
 }

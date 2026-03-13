@@ -48,6 +48,9 @@
                 </div>
                 <input type="submit" class="btn-submit" value="Se connecter">
             </form>
+                <p class="form-footer">
+                Pas encore membre ? <a href="register.jsp">S'enregistrer</a>
+            </p>
         </div>
     </div>
 </main>

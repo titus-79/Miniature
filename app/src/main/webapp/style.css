@@ -232,6 +232,44 @@ nav {
     border: 1px solid var(--border);
     padding: 1.8rem 2rem;
 }
+
+/* ── Bandeau authentification ─────────────── */
+.auth-banner {
+    background: white;
+    border: 1px solid var(--accent);
+    padding: 1.6rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.auth-banner p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink);
+}
+
+.auth-banner__actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+/* Lien d'invitation dans le footer de carte */
+.post-card__action--invite {
+    text-decoration: none;
+    color: var(--muted);
+    font-style: italic;
+    letter-spacing: 0.06em;
+}
+
+.post-card__action--invite:hover {
+    color: var(--accent);
+    background: var(--cream);
+}
+
 /* ── Typographie ──────────────────────────── */
 .label {
     font-size: 0.65rem;
