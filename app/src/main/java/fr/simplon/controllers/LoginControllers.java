@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @WebServlet("/login")
 
 public class LoginControllers extends HttpServlet {
@@ -25,7 +27,7 @@ public class LoginControllers extends HttpServlet {
         User found = null;
         for (User u : users) {
 
-            if (u.getUserName().equals(login) && u.getPasswordHash().equals(password)) {
+            if (u.getUserName().equals(login) && BCrypt.checkpw(password, u.getPasswordHash())) {
                 found = u;
                 break;
             }

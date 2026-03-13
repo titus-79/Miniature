@@ -33,7 +33,7 @@
             <div class="actions">
                 <% if (userSession != null) { %>
                     <a href="/feed" class="btn btn--primary">Explorer le fil</a>
-                    <a href="/logout.jsp" class="btn btn--ghost">Déconnexion</a>
+                    <a href="/logout" class="btn btn--ghost">Déconnexion</a>
                 <% } else { %>
                     <a href="register.jsp" class="btn btn--primary">Rejoindre</a>
                     <a href="login.jsp"    class="btn btn--ghost">Se connecter</a>
