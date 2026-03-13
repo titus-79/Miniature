@@ -16,15 +16,19 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/feed")
 
 public class FeedController extends HttpServlet {
-    // List<Post> posts = new ArrayList<>();
+    private final List<Post> posts = new ArrayList<>(List.of(
+            new Post(Post.genererID(), "Premier post", "Contenu du premier post", LocalDateTime.now(), false),
+            new Post(Post.genererID(), "Deuxième post", "Contenu du deuxième post", LocalDateTime.now(), false)));
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // super.doGet(req, resp);
         User userSession = (User) req.getSession().getAttribute("user");
-        List<Post> posts = List.of(
-                new Post(1L, "Premier post", "Contenu du premier post", LocalDateTime.now(), true),
-                new Post(2L, "Deuxième post", "Contenu du deuxième post", LocalDateTime.now(), true));
-                // Long id, String title, String content, LocalDateTime createdAt, boolean isDraft
+        // posts = List.of(
+        // new Post(1L, "Premier post", "Contenu du premier post", LocalDateTime.now(),
+        // true),
+        // new Post(2L, "Deuxième post", "Contenu du deuxième post",
+        // LocalDateTime.now(), true));
 
         String type = req.getParameter("type");
         // Jeu de données statique pour tester
@@ -39,11 +43,30 @@ public class FeedController extends HttpServlet {
             req.setAttribute("feedVide", "Aucune recommandation pour le moment.");
         }
 
-
-        req.setAttribute("posts", posts);
+        List<Post> postsTries = new ArrayList<>(posts);
+        postsTries.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        req.setAttribute("posts", postsTries);
         req.setAttribute("typeActif", type);
         req.setAttribute("feedTitre", type.equals("abonne") ? "Fil abonnements" : "Fil recommandations");
 
         req.getRequestDispatcher("/feed.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // super.doPost(req, resp);
+        String title = req.getParameter("title");
+        String content = req.getParameter("content");
+
+        boolean champsValides = title != null && !title.isBlank()
+                && content != null && !content.isBlank();
+
+        if (champsValides) {
+            posts.add(new Post(Post.genererID(), title, content, LocalDateTime.now(), false));
+            resp.sendRedirect("/feed");
+        } else {
+            resp.sendRedirect("/feed");
+        }
+
     }
 }

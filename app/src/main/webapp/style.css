@@ -109,6 +109,129 @@ nav {
 .panel-form h1  { font-size: clamp(1.8rem, 3vw, 2.6rem); }
 .hero__content  { padding: 6rem 5rem 6rem 8rem; z-index: 1; }
 
+/* ── Feed ─────────────────────────────────── */
+.feed-container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 7rem 2rem 4rem;   /* 7rem pour dépasser la nav fixe */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feed__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+}
+
+/* ── Carte post ───────────────────────────── */
+.post-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 0;
+    border-radius: 2px;
+    transition: box-shadow 0.25s, border-color 0.25s;
+    overflow: hidden;
+}
+
+.post-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 24px rgba(26, 23, 20, 0.07);
+}
+
+.post-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.2rem 1.6rem 0;
+}
+
+.post-card__avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.post-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.post-card__author {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+}
+
+.post-card__date {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.post-card__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--ink);
+    padding: 0.9rem 1.6rem 0.3rem;
+    line-height: 1.3;
+}
+
+.post-card__content {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.75;
+    padding: 0 1.6rem 1.2rem;
+}
+
+.post-card__footer {
+    display: flex;
+    border-top: 1px solid var(--border);
+}
+
+.post-card__action {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.75rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.post-card__action:hover {
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.post-card__action + .post-card__action {
+    border-left: 1px solid var(--border);
+}
+
+/* ── Formulaire de post ───────────────────── */
+.post-form {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.8rem 2rem;
+}
 /* ── Typographie ──────────────────────────── */
 .label {
     font-size: 0.65rem;

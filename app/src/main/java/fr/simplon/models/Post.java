@@ -1,16 +1,16 @@
 package fr.simplon.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Post {
-    
+
     private Long id;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private boolean isDraft;
-    
+    private static Long compteur = 0L;
+
     public Post(Long id, String title, String content, LocalDateTime createdAt, boolean isDraft) {
         this.id = id;
         this.title = title;
@@ -56,7 +56,7 @@ public class Post {
     }
 
     public void addLike(Like like) {
-        //TODO
+        // TODO
     }
 
     public String getTitle() {
@@ -68,6 +68,10 @@ public class Post {
     }
 
     // public List<Comment> getCommentSortedByDate() {
-    //     //TODO
+    // //TODO
     // }
+
+    public static long genererID() {
+        return compteur++;
+    }
 }
