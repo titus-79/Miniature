@@ -9,14 +9,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miniature</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <nav>
         <a href="/" class="nav__logo">Miniature</a>
         <ul class="nav__links">
-            <li><a href="feed.jsp">Explorer</a></li>
+            <li><a href="feed">Explorer</a></li>
             <li><a href="#">À propos</a></li>
         </ul>
     </nav>
@@ -35,8 +35,8 @@
                     <a href="/feed" class="btn btn--primary">Explorer le fil</a>
                     <a href="/logout" class="btn btn--ghost">Déconnexion</a>
                 <% } else { %>
-                    <a href="register.jsp" class="btn btn--primary">Rejoindre</a>
-                    <a href="login.jsp"    class="btn btn--ghost">Se connecter</a>
+                    <a href="register" class="btn btn--primary">Rejoindre</a>
+                    <a href="login"    class="btn btn--ghost">Se connecter</a>
                 <% } %>
             </div>
         </div>
