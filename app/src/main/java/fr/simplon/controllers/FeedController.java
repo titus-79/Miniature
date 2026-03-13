@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.simplon.models.Post;
 import fr.simplon.models.User;
@@ -15,8 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/feed")
-
 public class FeedController extends HttpServlet {
+
     private final List<Post> posts = new ArrayList<>(List.of(
 
             new Post(Post.genererID(),
@@ -70,7 +71,9 @@ public class FeedController extends HttpServlet {
                     LocalDateTime.now().minusDays(1).minusHours(3), false, UserRepository.HARRY)));
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         User userSession = (User) req.getSession().getAttribute("user");
         req.setAttribute("userSession", userSession);
 
@@ -78,41 +81,54 @@ public class FeedController extends HttpServlet {
         if (type == null || type.isBlank()) {
             type = "recommande";
         }
+
+        List<Post> postsTries = new ArrayList<>(posts);
+        postsTries.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+
         if (type.equals("abonne")) {
             req.setAttribute("feedTitre", "Fil abonnements");
             req.setAttribute("feedVide", "Vous n'avez pas encore d'abonnements.");
+
+            if (userSession != null) {
+                List<User> following = userSession.getFollowing();
+                postsTries = postsTries.stream()
+                        .filter(p -> following.stream()
+                                .anyMatch(u -> u.getId().equals(p.getAuthor().getId())))
+                        .collect(Collectors.toList());
+            } else {
+                // Non connecté : fil vide
+                postsTries = new ArrayList<>();
+            }
         } else {
             req.setAttribute("feedTitre", "Fil recommandations");
             req.setAttribute("feedVide", "Aucune recommandation pour le moment.");
         }
 
-        List<Post> postsTries = new ArrayList<>(posts);
-        postsTries.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
         req.setAttribute("posts", postsTries);
         req.setAttribute("typeActif", type);
-        req.setAttribute("feedTitre", type.equals("abonne") ? "Fil abonnements" : "Fil recommandations");
 
         req.getRequestDispatcher("/feed.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         User userSession = (User) req.getSession().getAttribute("user");
         if (userSession == null) {
             resp.sendRedirect("login.jsp");
             return;
         }
-        String title = req.getParameter("title");
+        String title   = req.getParameter("title");
         String content = req.getParameter("content");
 
         boolean champsValides = title != null && !title.isBlank()
                 && content != null && !content.isBlank();
 
         if (champsValides) {
-            posts.add(new Post(Post.genererID(), title, content, LocalDateTime.now(), false, userSession));
-            resp.sendRedirect("/feed");
-        } else {
-            resp.sendRedirect("/feed");
+            posts.add(new Post(Post.genererID(), title, content,
+                    LocalDateTime.now(), false, userSession));
         }
+        resp.sendRedirect("/feed");
     }
 }
