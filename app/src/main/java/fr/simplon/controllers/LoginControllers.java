@@ -38,8 +38,8 @@ public class LoginControllers extends HttpServlet {
             System.out.println("connecter : " + found.getUserName());
             resp.sendRedirect(req.getContextPath() + "/feed");
         } else {
-            System.out.println("Echec de connection :" + login);
-            resp.sendRedirect(req.getContextPath() + "/login");
+            req.setAttribute("erreur", "Login ou mot de passe incorrect");
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
 }

@@ -47,8 +47,8 @@ public class RegisterController extends HttpServlet {
             resp.sendRedirect("/feed");
 
         } else {
-            System.out.println("Champs invalides ou mots de passe différents");
-            resp.sendRedirect("/register");
+            req.setAttribute("erreur", "Login ou mot de passe incorrect");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
         }
 
     }

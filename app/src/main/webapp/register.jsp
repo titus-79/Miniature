@@ -30,8 +30,8 @@
             <h1>Créer <em>votre espace</em></h1>
             <p class="subtitle">Quelques secondes suffisent.</p>
 
-            <% if ("true".equals(request.getParameter("error"))) { %>
-                <div class="error-msg">Veuillez vérifier vos informations.</div>
+            <% if (request.getAttribute("erreur") != null) { %>
+                <div class="error-msg"><%= request.getAttribute("erreur") %></div>
             <% } %>
 
             <form action="/register" method="post">
