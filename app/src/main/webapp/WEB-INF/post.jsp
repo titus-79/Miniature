@@ -69,6 +69,7 @@
                     ></textarea>
                 </div>
                 <button type="submit" class="btn-submit">Commenter</button>
+
             </form>
         </div>
         <% } else { %>
@@ -105,6 +106,13 @@
                 <p class="comment-card__content"><%= comment.getComment() %></p>
 
                 <% if (connecte) { %>
+                <%-- bouton like --%>
+                <form method="post" action="/like">
+                    <input type="hidden" name="commentId" value="<%= comment.getId() %>">
+                    <button type="submit" class="btn-submit">👍<%= post.getLikesCount()%></button>
+
+                </form>
+
                 <%-- Bouton Répondre --%>
                 <button class="reply-toggle"
                         onclick="toggleReply('reply-form-<%= comment.getId() %>')">
