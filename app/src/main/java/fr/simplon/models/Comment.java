@@ -1,34 +1,49 @@
 package fr.simplon.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Comment {
 
-    private String comment;
     private Long id;
+    private String comment;
     private LocalDateTime createAt;
     private User user;
     private Post post;
+    private Comment parentComment;
+    private final List<Comment> replies = new ArrayList<>();
+    private static long compteur = 0L;
 
-
-    public Comment(String comment, Long id, LocalDateTime createAt, User user, Post post) {
-        this.comment = comment;
+    public Comment(Long id, String comment, LocalDateTime createAt,
+            User user, Post post, Comment parentComment) {
         this.id = id;
+        this.comment = comment;
         this.createAt = createAt;
         this.user = user;
         this.post = post;
-    }
-    public String getComment() {
-        return comment;
+        this.parentComment = parentComment;
     }
 
-    public void setComment(String comment) {
+    public void addReply(Comment reply) {
+        replies.add(reply);
+    }
 
-        this.comment = comment;
+    public List<Comment> getRepliesSortedByDate() {
+        return replies.stream()
+                .sorted((a, b) -> b.getCreateAt().compareTo(a.getCreateAt()))
+                .toList();
+    }
+
+    public boolean isTopLevel() {
+        return parentComment == null;
+    }
+
+    public static long genererID() {
+        return compteur++;
     }
 
     public Long getId() {
-
         return id;
     }
 
@@ -36,30 +51,47 @@ public class Comment {
         this.id = id;
     }
 
-    public LocalDateTime getCreateAt() {
+    public String getComment() {
+        return comment;
+    }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(LocalDateTime createAt) {
-
-        this.createAt = createAt;
+    public void setCreateAt(LocalDateTime t) {
+        this.createAt = t;
     }
 
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
-
     }
+
     public Post getPost() {
         return post;
     }
 
     public void setPost(Post post) {
         this.post = post;
+    }
 
+    public Comment getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Comment parent) {
+        this.parentComment = parent;
+    }
+
+    public List<Comment> getReplies() {
+        return replies;
     }
 }
-

@@ -11,8 +11,7 @@ public class User {
     private String email;
     private String passwordHash;
     private LocalDateTime createAt;
-    private static long compteur = 1;
-
+    private static long compteur = 0L;
     private final List<User> following = new ArrayList<>();
 
     public User(Long id, String userName, String email,
@@ -89,12 +88,6 @@ public class User {
     }
 
     public static void like(Post post) {
-        /* TODO */ }
-
-    public static void comment(Post post, String content) {
-        /* TODO */ }
-
-    public static void createPost(String content) {
         /* TODO */ }
 
     @Override

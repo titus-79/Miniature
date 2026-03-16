@@ -114,18 +114,21 @@
                 </form>
                 <% } %>
                 <% if (estAuteur) { %>
-                    <span class="follow-btn follow-btn--self"> Vous </span>
+                    <span class="follow-btn follow-btn--self">Vous</span>
                 <% } %>
             </div>
 
             <h3 class="post-card__title"><%= post.getTitle() %></h3>
             <p  class="post-card__content"><%= post.getContent() %></p>
 
-            <%-- Footer : actions si connecté, invitation sinon --%>
             <div class="post-card__footer">
                 <% if (connecte) { %>
                     <button class="post-card__action">♡ J'aime</button>
-                    <button class="post-card__action">💬 Commenter</button>
+                    <a href="/post?id=<%= post.getId() %>" class="post-card__action">
+                        💬 <%= post.getCommentCount() > 0
+                                ? post.getCommentCount() + " commentaire" + (post.getCommentCount() > 1 ? "s" : "")
+                                : "Commenter" %>
+                    </a>
                 <% } else { %>
                     <a href="/login.jsp" class="post-card__action post-card__action--invite">
                         Connectez-vous pour interagir →
