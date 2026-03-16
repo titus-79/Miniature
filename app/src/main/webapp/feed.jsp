@@ -123,7 +123,12 @@
 
             <div class="post-card__footer">
                 <% if (connecte) { %>
-                    <button class="post-card__action">♡ J'aime</button>
+
+                <form method="post" action="/like">
+                    <input type="hidden" name="postId" value="<%= post.getId() %>">
+                    <button type="submit" class="btn-submit">👍<%= post.getLikesCount()%></button>
+
+                </form>
                     <a href="/post?id=<%= post.getId() %>" class="post-card__action">
                         💬 <%= post.getCommentCount() > 0
                                 ? post.getCommentCount() + " commentaire" + (post.getCommentCount() > 1 ? "s" : "")

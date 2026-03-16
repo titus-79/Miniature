@@ -14,6 +14,7 @@ public class Comment {
     private Comment parentComment;
     private final List<Comment> replies = new ArrayList<>();
     private static long compteur = 0L;
+    private final List<Like> likes = new ArrayList<>();
 
     public Comment(Long id, String comment, LocalDateTime createAt,
             User user, Post post, Comment parentComment) {
@@ -34,6 +35,7 @@ public class Comment {
                 .sorted((a, b) -> b.getCreateAt().compareTo(a.getCreateAt()))
                 .toList();
     }
+
 
     public boolean isTopLevel() {
         return parentComment == null;
@@ -93,5 +95,12 @@ public class Comment {
 
     public List<Comment> getReplies() {
         return replies;
+    }
+
+    public void addLike(Like like) {
+        likes.add(like);
+    }
+    public int getLikesCount(){
+        return this.likes.size();
     }
 }

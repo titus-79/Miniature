@@ -65,6 +65,9 @@ public class PostRepository {
             POST_TOMCAT, POST_SERVLET, POST_HIBERNATE, POST_NPE, POST_SESSION,
             POST_MAVEN, POST_BCRYPT, POST_MVC, POST_404, POST_RECORDS));
 
+    public static final List<Comment> TOUS_COMMENT = new ArrayList<>(List.of(
+            ));
+
     // ── Seed commentaires ────────────────────────────────────────────────────
 
     static {
@@ -73,7 +76,7 @@ public class PostRepository {
         // POST : "Tomcat vs Jetty, vous utilisez quoi ?"
         // ════════════════════════════════════════════════════════════
 
-        Comment c1 = new Comment(Comment.genererID(),
+       Comment c1 = new Comment(Comment.genererID(),
                 "Tomcat de loin. L'écosystème est bien plus mature et la doc est immense. Pour un projet d'entreprise c'est LE choix par défaut.",
                 LocalDateTime.now().minusMinutes(15), UserRepository.BOB, POST_TOMCAT, null);
 
@@ -227,6 +230,7 @@ public class PostRepository {
     private static void seedComments(Post post, Comment... comments) {
         for (Comment c : comments) {
             post.addComment(c);
+            TOUS_COMMENT.add(c);
             if (c.getParentComment() != null) {
                 c.getParentComment().addReply(c);
             }
@@ -235,10 +239,17 @@ public class PostRepository {
 
     // ── Recherche ────────────────────────────────────────────────────────────
 
-    public static Post findById(Long id) {
+    public static Post findPostById(Long id) {
         return TOUS.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+    public static Comment findCommentById(Long id) {
+        return TOUS_COMMENT.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
     }
 }

@@ -96,7 +96,7 @@ public class CommentController extends HttpServlet {
 
         try {
             long id = Long.parseLong(idStr);
-            Post post = PostRepository.findById(id);
+            Post post = PostRepository.findPostById(id);
 
             if (post == null) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Post introuvable");

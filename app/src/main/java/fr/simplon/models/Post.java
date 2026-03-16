@@ -51,6 +51,10 @@ public class Post {
         likes.add(like);
     }
 
+    public int getLikesCount(){
+        return this.likes.size();
+    }
+
     public int getLikeCount() {
         return likes.size();
     }
