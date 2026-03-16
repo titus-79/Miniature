@@ -2,6 +2,7 @@ package fr.simplon.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Comment {
@@ -103,4 +104,11 @@ public class Comment {
     public int getLikesCount(){
         return this.likes.size();
     }
+    public void removeLike(Like like) {
+        likes.remove(like);
+    }
+    public List<Like> getLikes() {
+        return likes;
+    }
+
 }

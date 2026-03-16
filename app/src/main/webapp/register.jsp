@@ -48,7 +48,7 @@
                     <label for="email">Adresse email</label>
                     <input type="email" name="email" id="email"
                            placeholder="vous@exemple.com"
-                           pattern="[-a-zA-Z0-9._]+@[-a-zA-Z0-9._]+\.[a-zA-Z.]{2,15}"
+                           pattern="[-a-zA-Z0-9._\+]+@[-a-zA-Z0-9._]+\.[a-zA-Z.]{2,15}"
                            required>
                 </div>
 

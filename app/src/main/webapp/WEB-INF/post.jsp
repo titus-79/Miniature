@@ -109,7 +109,7 @@
                 <%-- bouton like --%>
                 <form method="post" action="/like">
                     <input type="hidden" name="commentId" value="<%= comment.getId() %>">
-                    <button type="submit" class="btn-submit">👍<%= post.getLikesCount()%></button>
+                    <button type="submit" class="btn-submit">👍<%= comment.getLikesCount()%></button>
 
                 </form>
 
