@@ -17,7 +17,7 @@ Réseau social minimaliste développé en Java avec une architecture MVC stricte
 Cloner le dépôt :
 
 ```bash
-git clone https://github.com/<votre-compte>/miniature.git
+git clone https://github.com/titus-79/miniature.git
 cd miniature
 ```
 
