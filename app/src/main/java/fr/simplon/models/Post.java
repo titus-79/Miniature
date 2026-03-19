@@ -58,11 +58,6 @@ public class Post {
         likes.remove(like);
     }
 
-    public int getLikeCount() {
-        return likes.size();
-    }
-
-
     public static long genererID() {
         return compteur++;
     }
