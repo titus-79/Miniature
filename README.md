@@ -3,6 +3,82 @@
 Réseau social minimaliste développé en Java avec une architecture MVC stricte (Servlets / JSP / Tomcat embarqué), réalisé dans le cadre du Brief 6 Simplon.
 
 ---
+## Diagramme de Cas d'Utilisation
+![use-cases-diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/titus-79/Omnilib/main/docs/use-cases-diagram.iuml)
+
+--- 
+
+## Diagramme de classe
+
+```mermaid
+classDiagram
+	
+	class User{
+			-Long id 
+			-String username 
+			-String email 
+			-String passwordHash 
+			-LocalDateTime createdAt 
+			+like(Post post) Like 
+			+comment(Post post, String content) Comment 
+			+follow(User target) void 
+			+unfollow(User target) void
+            +createPost(String content) Post
+		}
+		
+    class Like { 
+		    -Long id 
+		    -LocalDateTime createdAt
+		 }
+		 
+	class Comment { 
+			-Long id 
+			-String content 
+			-LocalDateTime createdAt 
+		}
+		
+	class Post { 
+			-Long id 
+			-String content 
+			-LocalDateTime createdAt 
+			-boolean isDraft 
+			+addComment(Comment comment) void 
+			+addLike(Like like) void 
+			+getCommentsSortedByDate() List~Comment~ 
+		}	
+	    
+	class Attachment{
+			-Long id
+			-AttachmentType type
+			-String link
+			-String image
+			-String video
+			-String document
+		}
+		
+	class AttachmentType { 
+		<<enumeration>> 
+			LINK 
+			IMAGE 
+			VIDEO 
+			DOCUMENT 
+			POST
+			}
+
+User --> Post : etre l'auteur 
+User --> Comment : etre l'auteur 
+User --> User : follows 
+User --> Like : donner
+Post --> Comment : possede 
+Post --> Like : reçois
+Post --> Post : parent (repost) 
+Post --> Attachment : possede
+Attachment --> AttachmentType : type 
+Attachment --> Post : references (repost)
+
+```
+
+---
 
 ## Prérequis
 

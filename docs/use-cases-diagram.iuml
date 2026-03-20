@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+
+together {
+	actor "User" as User
+	actor "Visiteur" as Visiteur 
+}
+
+rectangle "Miniature" {
+	usecase "Naviguer" as UC_NAV
+	usecase "Authentification" as UC_AUTH
+	usecase "Abonner à une chaine" as UC_AB
+	usecase "Gerer du contenu" as UC_GERER
+	
+}
+
+User -left-|> Visiteur
+Visiteur -- UC_NAV
+User -- UC_AB
+User -- UC_GERER
+
+UC_AB -.-> UC_AUTH : << include >>
+UC_GERER -.-> UC_AUTH : << include >>
+
+
+@enduml
