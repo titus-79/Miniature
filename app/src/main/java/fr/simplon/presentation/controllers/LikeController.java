@@ -28,13 +28,13 @@ public class LikeController extends HttpServlet {
 
         Comment comment = resolveComment(req, resp);
         if (comment != null) {
-            boolean dejaLike = comment.getLikes().stream()
-                    .anyMatch(l -> l.getUser().getId().equals(userSession.getId()));
-            if (dejaLike) {
-                comment.getLikes().removeIf(l -> l.getUser().getId().equals(userSession.getId()));
-            } else {
-                comment.addLike(new Like(Like.genererId(), LocalDateTime.now(), null, userSession));
-            }
+            // boolean dejaLike = comment.getLikes().stream()
+            //         .anyMatch(l -> l.getUser().getId().equals(userSession.getId()));
+            // if (dejaLike) {
+            //     comment.getLikes().removeIf(l -> l.getUser().getId().equals(userSession.getId()));
+            // } else {
+            //     comment.addLike(new Like(Like.genererId(), LocalDateTime.now(), null, userSession));
+            // }
             resp.sendRedirect(req.getContextPath() + "/post");
             return;
         }
@@ -42,13 +42,13 @@ public class LikeController extends HttpServlet {
 
         Post post = resolvePost(req, resp);
         if (post != null) {
-            boolean dejaLike =  post.getLikes().stream()
-                    .anyMatch(l -> l.getUser().getId().equals(userSession.getId()));
-            if (dejaLike) {
-                post.getLikes().removeIf(l -> l.getUser().getId().equals(userSession.getId()));
-            } else {
-                post.addLike(new Like(Like.genererId(), LocalDateTime.now(), null, userSession));
-            }
+            // boolean dejaLike =  post.getLikes().stream()
+            //         .anyMatch(l -> l.getUser().getId().equals(userSession.getId()));
+            // if (dejaLike) {
+            //     post.getLikes().removeIf(l -> l.getUser().getId().equals(userSession.getId()));
+            // } else {
+            //     post.addLike(new Like(Like.genererId(), LocalDateTime.now(), null, userSession));
+            // }
             resp.sendRedirect(req.getContextPath() + "/feed");
         }
     }
