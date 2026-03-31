@@ -18,12 +18,12 @@ public class AppContext implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         IUserRepository userRepository = new InMemoryUserRepository();
-        // IPostRepository postRepository = new InMemoryPostRepository(userRepository);
+        IPostRepository postRepository = new InMemoryPostRepository(userRepository);
         AuthService authService = new AuthService(userRepository);
-        // FeedService feedService = new FeedService(postRepository);
+        FeedService feedService = new FeedService(postRepository);
         ServletContext ctx = sce.getServletContext();
         ctx.setAttribute("authService", authService);
-        // ctx.setAttribute("feedService", feedService);
+        ctx.setAttribute("feedService", feedService);
         System.out.println("[AppContext] Démarré");
 
     }

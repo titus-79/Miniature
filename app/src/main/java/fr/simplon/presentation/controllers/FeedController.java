@@ -1,14 +1,11 @@
 package fr.simplon.presentation.controllers;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import fr.simplon.application.services.FeedService;
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
-import fr.simplon.infrastructure.persistence.PostRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/feed")
 public class FeedController extends HttpServlet {
+
+    private FeedService feedService;
+
+    @Override
+    public void init() {
+        this.feedService = (FeedService) getServletContext().getAttribute("feedService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,21 +34,16 @@ public class FeedController extends HttpServlet {
             type = "recommande";
         }
 
-        // List<Post> postsTries = new ArrayList<>(PostRepository.TOUS);
-        // postsTries.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        List<Post> postsTries = feedService.getRecommendedFeed();
 
         if (type.equals("abonne")) {
             req.setAttribute("feedTitre", "Fil abonnements");
             req.setAttribute("feedVide", "Vous n'avez pas encore d'abonnements.");
 
             if (userSession != null) {
-                // List<User> following = userSession.getFollowing();
-                // postsTries = postsTries.stream()
-                //         .filter(p -> following.stream()
-                //                 .anyMatch(u -> u.getId().equals(p.getAuthor().getId())))
-                //         .collect(Collectors.toList());
+                postsTries = feedService.getFollowingFeed(userSession);
             } else {
-                postsTries = new ArrayList<>();
+                postsTries = List.of();
             }
         } else {
             req.setAttribute("feedTitre", "Fil recommandations");
@@ -63,7 +62,7 @@ public class FeedController extends HttpServlet {
 
         User userSession = (User) req.getSession().getAttribute("user");
         if (userSession == null) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
@@ -71,11 +70,9 @@ public class FeedController extends HttpServlet {
         String content = req.getParameter("content");
 
         if (title != null && !title.isBlank() && content != null && !content.isBlank()) {
-        //     PostRepository.TOUS.add(
-        //             new Post(Post.genererID(), title, content,
-        //                     LocalDateTime.now(), false, userSession));
-         }
+            feedService.createPost(title, content, userSession);
+        }
 
-        resp.sendRedirect("/feed");
+        resp.sendRedirect(req.getContextPath() + "/feed");
     }
 }
