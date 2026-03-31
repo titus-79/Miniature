@@ -1,8 +1,8 @@
 package fr.simplon.presentation.middlewares;
 
+import fr.simplon.application.services.AuthService;
 import fr.simplon.domain.entities.User;
 import fr.simplon.infrastructure.persistence.InMemoryUserRepository;
-import fr.simplon.infrastructure.persistence.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -19,24 +20,56 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginControllers extends HttpServlet {
 
-    private static final List<User> users = userRepository;
+    // private static final List<User> users = InMemoryUserRepository.findAll();
+
+    private AuthService authService;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() {
+        this.authService = (AuthService) getServletContext().getAttribute("authService");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    }
+
+    // @Override
+    // protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    // throws ServletException, IOException {
+    // String login = req.getParameter("login");
+    // String password = req.getParameter("password");
+    // User found = null;
+    // for (User u : users) {
+
+    // if (u.getUserName().equals(login) && BCrypt.checkpw(password,
+    // u.getPasswordHash())) {
+    // found = u;
+    // break;
+    // }
+    // }
+    // if (found != null) {
+    // HttpSession session = req.getSession();
+    // session.setAttribute("user", found);
+    // System.out.println("connecter : " + found.getUserName());
+    // resp.sendRedirect(req.getContextPath() + "/feed");
+    // } else {
+    // req.setAttribute("erreur", "Login ou mot de passe incorrect");
+    // req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    // }
+    // }
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        User found = null;
-        for (User u : users) {
 
-            if (u.getUserName().equals(login) && BCrypt.checkpw(password, u.getPasswordHash())) {
-                found = u;
-                break;
-            }
-        }
-        if (found != null) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", found);
-            System.out.println("connecter : " + found.getUserName());
+        Optional<User> found = authService.login(login, password);
+
+        if (found.isPresent()) {
+            req.getSession().setAttribute("user", found.get());
             resp.sendRedirect(req.getContextPath() + "/feed");
         } else {
             req.setAttribute("erreur", "Login ou mot de passe incorrect");
