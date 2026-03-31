@@ -23,7 +23,7 @@ public class App {
         tomcat.setPort(8080);
         tomcat.getConnector();
 
-        File publicFolder = new File("src/main/webapp/");
+        File publicFolder = new File("src/main/java/fr/simplon/presentation/views/webapp/");
         if (!publicFolder.exists()) {
             publicFolder.mkdirs();
         }
@@ -35,7 +35,7 @@ public class App {
         WebResourceRoot resources = new StandardRoot(ctx);
         resources.addPreResources(new DirResourceSet(
                 resources,
-                "/WEB-INF/classes",
+                "/presentation/views/webapp/WEB-INF/classes",
                 classesFolder.getAbsolutePath(),
                 "/"));
         ctx.setResources(resources);
