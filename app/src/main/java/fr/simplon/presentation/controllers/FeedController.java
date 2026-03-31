@@ -30,19 +30,19 @@ public class FeedController extends HttpServlet {
             type = "recommande";
         }
 
-        List<Post> postsTries = new ArrayList<>(PostRepository.TOUS);
-        postsTries.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        // List<Post> postsTries = new ArrayList<>(PostRepository.TOUS);
+        // postsTries.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
 
         if (type.equals("abonne")) {
             req.setAttribute("feedTitre", "Fil abonnements");
             req.setAttribute("feedVide", "Vous n'avez pas encore d'abonnements.");
 
             if (userSession != null) {
-                List<User> following = userSession.getFollowing();
-                postsTries = postsTries.stream()
-                        .filter(p -> following.stream()
-                                .anyMatch(u -> u.getId().equals(p.getAuthor().getId())))
-                        .collect(Collectors.toList());
+                // List<User> following = userSession.getFollowing();
+                // postsTries = postsTries.stream()
+                //         .filter(p -> following.stream()
+                //                 .anyMatch(u -> u.getId().equals(p.getAuthor().getId())))
+                //         .collect(Collectors.toList());
             } else {
                 postsTries = new ArrayList<>();
             }
@@ -71,10 +71,10 @@ public class FeedController extends HttpServlet {
         String content = req.getParameter("content");
 
         if (title != null && !title.isBlank() && content != null && !content.isBlank()) {
-            PostRepository.TOUS.add(
-                    new Post(Post.genererID(), title, content,
-                            LocalDateTime.now(), false, userSession));
-        }
+        //     PostRepository.TOUS.add(
+        //             new Post(Post.genererID(), title, content,
+        //                     LocalDateTime.now(), false, userSession));
+         }
 
         resp.sendRedirect("/feed");
     }
