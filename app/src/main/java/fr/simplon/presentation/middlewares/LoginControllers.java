@@ -2,19 +2,14 @@ package fr.simplon.presentation.middlewares;
 
 import fr.simplon.application.services.AuthService;
 import fr.simplon.domain.entities.User;
-import fr.simplon.infrastructure.persistence.InMemoryUserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/login")
 
@@ -32,7 +27,7 @@ public class LoginControllers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
     }
 
     // @Override
@@ -73,7 +68,7 @@ public class LoginControllers extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/feed");
         } else {
             req.setAttribute("erreur", "Login ou mot de passe incorrect");
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }
     }
 }
