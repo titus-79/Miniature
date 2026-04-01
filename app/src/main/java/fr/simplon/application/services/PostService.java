@@ -21,7 +21,7 @@ public class PostService {
 
     public Post createPost(String title, String content, User author) {
         return postRepository.save(
-                new Post(Post.genererID(), title, content,
+                new Post(null, title, content,
                         LocalDateTime.now(), false, author));
     }
 

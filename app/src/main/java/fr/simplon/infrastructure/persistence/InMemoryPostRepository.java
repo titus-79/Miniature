@@ -1,6 +1,7 @@
 package fr.simplon.infrastructure.persistence;
 
 import fr.simplon.domain.entities.Comment;
+import fr.simplon.domain.entities.Like;
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
 import fr.simplon.domain.repository.IPostRepository;
@@ -18,8 +19,15 @@ import java.util.Optional;
  */
 public class InMemoryPostRepository implements IPostRepository {
 
-    private final List<Post>    posts    = new ArrayList<>();
+    private final List<Post> posts = new ArrayList<>();
     private final List<Comment> comments = new ArrayList<>();
+    private final List<Like> likes = new ArrayList<>();
+
+    private long nextId = 0L;
+
+    private long nextId() {
+        return nextId++;
+    }
 
     public InMemoryPostRepository(IUserRepository userRepository) {
         seed(userRepository);
@@ -39,6 +47,7 @@ public class InMemoryPostRepository implements IPostRepository {
 
     @Override
     public Post save(Post post) {
+        post.setId(nextId());
         posts.add(post);
         return post;
     }
@@ -48,15 +57,29 @@ public class InMemoryPostRepository implements IPostRepository {
         return comments.stream().filter(c -> c.getId().equals(id)).findFirst();
     }
 
+    @Override
+    public Comment saveComment(Comment comment) {
+        comment.setId(nextId());
+        comments.add(comment);
+        return comment;
+    }
+
+    @Override
+    public Like saveLike(Like like) {
+        like.setId(nextId());
+        likes.add(like);
+        return like;
+    }
+
     // ── Seed ─────────────────────────────────────────────────────────────────
 
     private void seed(IUserRepository users) {
         // On récupère les utilisateurs via l'interface — pas de référence statique
-        User alice   = users.findByUsername("alice").orElseThrow();
-        User bob     = users.findByUsername("bob").orElseThrow();
-        User harry   = users.findByUsername("harry").orElseThrow();
+        User alice = users.findByUsername("alice").orElseThrow();
+        User bob = users.findByUsername("bob").orElseThrow();
+        User harry = users.findByUsername("harry").orElseThrow();
         User camille = users.findByUsername("camille").orElseThrow();
-        User leon    = users.findByUsername("leon").orElseThrow();
+        User leon = users.findByUsername("leon").orElseThrow();
 
         Post tomcat = post("Tomcat vs Jetty, vous utilisez quoi ?",
                 "Je commence un nouveau projet et j'hésite entre les deux.",
@@ -99,15 +122,11 @@ public class InMemoryPostRepository implements IPostRepository {
     }
 
     private Post post(String title, String content, LocalDateTime date, User author) {
-        Post p = new Post(Post.genererID(), title, content, date, false, author);
-        posts.add(p);
-        return p;
+        return save(new Post(null, title, content, date, false, author));
     }
 
     private Comment comment(String text, LocalDateTime date, User author, Post post, Comment parent) {
-        Comment c = new Comment(Comment.genererID(), text, date, author, post, parent);
-        comments.add(c);
-        return c;
+        return saveComment(new Comment(null, text, date, author, post, parent));
     }
 
     private void seedComments(Post post, Comment... cs) {

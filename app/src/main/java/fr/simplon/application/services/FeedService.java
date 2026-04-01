@@ -1,9 +1,7 @@
 package fr.simplon.application.services;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
 import fr.simplon.domain.repository.IPostRepository;

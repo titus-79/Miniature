@@ -14,7 +14,6 @@ public class Post {
     private User author;
     private final List<Comment> comments = new ArrayList<>();
     private final List<Like> likes = new ArrayList<>();
-    private static Long compteur = 0L;
 
     public Post(Long id, String title, String content,
             LocalDateTime createdAt, boolean isDraft, User author) {
@@ -56,10 +55,6 @@ public class Post {
     }
     public void removeLike(Like like) {
         likes.remove(like);
-    }
-
-    public static long genererID() {
-        return compteur++;
     }
 
     public Long getId() {
