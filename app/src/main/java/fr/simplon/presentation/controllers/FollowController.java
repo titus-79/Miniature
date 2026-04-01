@@ -1,7 +1,7 @@
 package fr.simplon.presentation.controllers;
 
+import fr.simplon.application.useCases.FollowUserUseCase;
 import fr.simplon.domain.entities.User;
-import fr.simplon.infrastructure.persistence.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +12,13 @@ import java.io.IOException;
 
 @WebServlet("/follow")
 public class FollowController extends HttpServlet {
+
+    private FollowUserUseCase followUserUseCase;
+
+    @Override
+    public void init() {
+        this.followUserUseCase = (FollowUserUseCase) getServletContext().getAttribute("followUseCase");
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -32,26 +39,10 @@ public class FollowController extends HttpServlet {
 
         if (targetIdStr != null && action != null) {
             try {
-                long targetId = Long.parseLong(targetIdStr);
-
-                User target = UserRepository.TOUS.stream()
-                        .filter(u -> u.getId() == targetId)
-                        .findFirst()
-                        .orElse(null);
-
-                if (target != null) {
-                    if ("follow".equals(action)) {
-                        currentUser.follow(target);
-                        System.out.println(currentUser.getUserName()
-                                + " suit maintenant " + target.getUserName());
-                    } else if ("unfollow".equals(action)) {
-                        currentUser.unfollow(target);
-                        System.out.println(currentUser.getUserName()
-                                + " ne suit plus " + target.getUserName());
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("targetId invalide : " + targetIdStr);
+                followUserUseCase.toggleUserFollow(Long.parseLong(targetIdStr), currentUser, action);
+            } catch (IllegalArgumentException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                return;
             }
         }
 
