@@ -1,9 +1,11 @@
 package fr.simplon.presentation.controllers;
 
+import fr.simplon.application.services.PostService;
 import fr.simplon.domain.entities.Comment;
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
-import fr.simplon.infrastructure.persistence.PostRepository;
+
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,10 +14,17 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @WebServlet("/post")
 public class CommentController extends HttpServlet {
+    private PostService  postService;
 
+
+    @Override
+    public void init () throws ServletException {
+       this.postService = (PostService) getServletContext().getAttribute("postService");
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -96,14 +105,14 @@ public class CommentController extends HttpServlet {
 
         try {
             long id = Long.parseLong(idStr);
-            Post post = PostRepository.findPostById(id);
+            Optional<Post> post = postService.getPost(id);
 
-            if (post == null) {
+            if (post.isEmpty()) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Post introuvable");
                 return null;
             }
 
-            return post;
+            return post.get();
 
         } catch (NumberFormatException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Identifiant invalide");
