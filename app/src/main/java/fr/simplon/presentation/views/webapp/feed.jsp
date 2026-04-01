@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="fr.simplon.models.User" %>
-<%@ page import="fr.simplon.models.Post" %>
+<%@ page import="fr.simplon.domain.entities.User" %>
+<%@ page import="fr.simplon.domain.entities.Post" %>
 <%@ page import="java.util.List" %>
 
 <%
@@ -52,7 +52,7 @@
         <% if (connecte) { %>
         <div class="post-form">
             <p class="label">Nouvelle publication</p>
-            <form action="/feed" method="post">
+            <form action="/post/create" method="post">
                 <div class="field">
                     <label for="title">Titre</label>
                     <input type="text" name="title" id="title"

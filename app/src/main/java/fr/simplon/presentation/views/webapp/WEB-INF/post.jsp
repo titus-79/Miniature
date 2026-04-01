@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="fr.simplon.models.User" %>
-<%@ page import="fr.simplon.models.Post" %>
-<%@ page import="fr.simplon.models.Comment" %>
+<%@ page import="fr.simplon.domain.entities.User" %>
+<%@ page import="fr.simplon.domain.entities.Post" %>
+<%@ page import="fr.simplon.domain.entities.Comment" %>
 <%@ page import="java.util.List" %>
 
 <%

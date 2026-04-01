@@ -42,9 +42,4 @@ public class FeedService {
         return postUserFollow(getRecommendedFeed(), userSession.getFollowing());
     }
 
-    public void createPost(String title, String content, User userSession) {
-        postRepository.save(new Post(Post.genererID(), title, content,
-                LocalDateTime.now(), false, userSession));
-
-    }
 }
