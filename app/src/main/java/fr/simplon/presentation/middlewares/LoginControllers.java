@@ -30,30 +30,7 @@ public class LoginControllers extends HttpServlet {
         req.getRequestDispatcher("/views/webapp/login.jsp").forward(req, resp);
     }
 
-    // @Override
-    // protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-    // throws ServletException, IOException {
-    // String login = req.getParameter("login");
-    // String password = req.getParameter("password");
-    // User found = null;
-    // for (User u : users) {
 
-    // if (u.getUserName().equals(login) && BCrypt.checkpw(password,
-    // u.getPasswordHash())) {
-    // found = u;
-    // break;
-    // }
-    // }
-    // if (found != null) {
-    // HttpSession session = req.getSession();
-    // session.setAttribute("user", found);
-    // System.out.println("connecter : " + found.getUserName());
-    // resp.sendRedirect(req.getContextPath() + "/feed");
-    // } else {
-    // req.setAttribute("erreur", "Login ou mot de passe incorrect");
-    // req.getRequestDispatcher("/login.jsp").forward(req, resp);
-    // }
-    // }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -68,7 +45,7 @@ public class LoginControllers extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/feed");
         } else {
             req.setAttribute("erreur", "Login ou mot de passe incorrect");
-            req.getRequestDispatcher("/views/webapp/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
 }
