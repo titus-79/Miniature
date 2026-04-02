@@ -3,6 +3,7 @@ package fr.simplon.infrastructure.config;
 import fr.simplon.application.services.AuthService;
 import fr.simplon.application.services.FeedService;
 import fr.simplon.application.services.PostService;
+import fr.simplon.application.useCases.AddCommentUseCase;
 import fr.simplon.application.useCases.FollowUserUseCase;
 import fr.simplon.application.useCases.LikePostUseCase;
 import fr.simplon.domain.repository.IPostRepository;
@@ -27,12 +28,15 @@ public class AppContext implements ServletContextListener {
         FollowUserUseCase followUserUseCase = new FollowUserUseCase(userRepository);
         LikePostUseCase likePostUseCase = new LikePostUseCase(postRepository);
         PostService postService = new PostService(postRepository);
+        AddCommentUseCase addCommentUseCase = new AddCommentUseCase(postRepository);
+
         ServletContext ctx = sce.getServletContext();
         ctx.setAttribute("authService", authService);
         ctx.setAttribute("feedService", feedService);
         ctx.setAttribute("followUseCase", followUserUseCase);
         ctx.setAttribute("likeUseCase", likePostUseCase);
         ctx.setAttribute("postService", postService);
+        ctx.setAttribute("addCommentUseCase", addCommentUseCase);
         System.out.println("[AppContext] Démarré");
 
     }

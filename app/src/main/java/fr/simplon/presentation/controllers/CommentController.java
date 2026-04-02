@@ -1,7 +1,7 @@
 package fr.simplon.presentation.controllers;
 
 import fr.simplon.application.services.PostService;
-import fr.simplon.domain.entities.Comment;
+import fr.simplon.application.useCases.AddCommentUseCase;
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
 
@@ -13,17 +13,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @WebServlet("/post")
 public class CommentController extends HttpServlet {
     private PostService  postService;
+    private AddCommentUseCase addCommentUseCase;
 
 
     @Override
     public void init () throws ServletException {
        this.postService = (PostService) getServletContext().getAttribute("postService");
+       this.addCommentUseCase = (AddCommentUseCase) getServletContext().getAttribute("addCommentUseCase");
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -48,13 +49,12 @@ public class CommentController extends HttpServlet {
 
         User userSession = (User) req.getSession().getAttribute("user");
         if (userSession == null) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
         Post post = resolvePost(req, resp);
-        if (post == null)
-            return;
+        if (post == null) return;
 
         String content = req.getParameter("content");
         if (content == null || content.isBlank()) {
@@ -63,33 +63,13 @@ public class CommentController extends HttpServlet {
         }
 
         String parentIdStr = req.getParameter("parentCommentId");
-        Comment parentComment = null;
-
+        Long parentId = null;
         if (parentIdStr != null && !parentIdStr.isBlank()) {
-            try {
-                long parentId = Long.parseLong(parentIdStr);
-                parentComment = post.getComments().stream()
-                        .filter(c -> c.getId().equals(parentId))
-                        .findFirst()
-                        .orElse(null);
-            } catch (NumberFormatException e) {
-                System.err.println("parentCommentId invalide : " + parentIdStr);
-            }
+            try { parentId = Long.parseLong(parentIdStr); }
+            catch (NumberFormatException ignored) {}
         }
 
-        Comment newComment = new Comment(
-                Comment.genererID(),
-                content,
-                LocalDateTime.now(),
-                userSession,
-                post,
-                parentComment);
-
-        post.addComment(newComment);
-
-        if (parentComment != null) {
-            parentComment.addReply(newComment);
-        }
+        addCommentUseCase.execute(post, content, userSession, parentId); 
 
         resp.sendRedirect(req.getContextPath() + "/post?id=" + post.getId());
     }
