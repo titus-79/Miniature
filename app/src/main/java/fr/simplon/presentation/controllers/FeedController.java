@@ -56,4 +56,23 @@ public class FeedController extends HttpServlet {
         req.getRequestDispatcher("/feed.jsp").forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        User userSession = (User) req.getSession().getAttribute("user");
+        if (userSession == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
+        String title = req.getParameter("title");
+        String content = req.getParameter("content");
+
+        if (title != null && !title.isBlank() && content != null && !content.isBlank()) {
+            feedService.createPost(title, content, userSession);
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/feed");
+    }
 }

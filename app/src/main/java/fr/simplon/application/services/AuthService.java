@@ -24,8 +24,7 @@ public class AuthService {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("Nom d'utilisateur déjà pris.");
         }
-   refacto
-        User user = new User(null, username, email,
+        User user = new User(User.genererID(), username, email,
                              BCrypt.hashpw(password, BCrypt.gensalt()),
                              LocalDateTime.now());
         return userRepository.save(user);

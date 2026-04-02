@@ -26,7 +26,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/register.jsp").forward(req, resp);
+        req.getRequestDispatcher("views/webapp/register.jsp").forward(req, resp);
     }
 
     @Override
@@ -43,7 +43,14 @@ public class RegisterController extends HttpServlet {
                 && password.equals(passwordConf);
 
         if (champsValides) {
+            // String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
 
+            // User newUser = new User(
+            // User.genererID(),
+            // login,
+            // email,
+            // passwordHash,
+            // LocalDateTime.now());
             User newUser = authService.register(login, email, password);
 
             HttpSession session = req.getSession();
@@ -54,7 +61,7 @@ public class RegisterController extends HttpServlet {
 
         } else {
             req.setAttribute("erreur", "Login ou mot de passe incorrect");
-            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/webapp/register.jsp").forward(req, resp);
         }
 
     }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class Like {
     
     private Long id;
+    private static Long compteur=0L;
     private LocalDateTime createdAt;
     private User user;
     private Post post;
@@ -38,6 +39,9 @@ public class Like {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    public static Long genererId(){
+        return compteur++;
     }
 
     public User getUser() {

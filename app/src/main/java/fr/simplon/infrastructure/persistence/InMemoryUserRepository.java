@@ -13,12 +13,6 @@ public class InMemoryUserRepository implements IUserRepository {
 
     private final List<User> store = new ArrayList<>();
 
-    private long nextId = 0L;
-
-    private long nextId() {
-        return nextId++;
-    }
-
     public InMemoryUserRepository() {
         seed();
     }
@@ -42,7 +36,6 @@ public class InMemoryUserRepository implements IUserRepository {
 
     @Override
     public User save(User user) {
-        user.setId(nextId());
         store.add(user);
         return user;
     }
@@ -50,15 +43,15 @@ public class InMemoryUserRepository implements IUserRepository {
     // ── Données initiales ────────────────────────────────────────────────────
 
     private void seed() {
-        save(new User(null, "alice", "alice@mail.com", BCrypt.hashpw("password123", BCrypt.gensalt()),
-                LocalDateTime.now()));
-        save(new User(null, "bob", "bob@mail.com", BCrypt.hashpw("password123", BCrypt.gensalt()),
-                LocalDateTime.now()));
-        save(new User(null, "harry", "harry@mail.com", BCrypt.hashpw("password123", BCrypt.gensalt()),
-                LocalDateTime.now()));
-        save(new User(null, "camille", "camille@mail.com", BCrypt.hashpw("password123", BCrypt.gensalt()),
-                LocalDateTime.now()));
-        save(new User(null, "leon", "leon@mail.com", BCrypt.hashpw("password123", BCrypt.gensalt()),
-                LocalDateTime.now()));
+        store.add(new User(User.genererID(), "alice",   "alice@mail.com",
+                BCrypt.hashpw("password123", BCrypt.gensalt()), LocalDateTime.now()));
+        store.add(new User(User.genererID(), "bob",     "bob@mail.com",
+                BCrypt.hashpw("password123", BCrypt.gensalt()), LocalDateTime.now()));
+        store.add(new User(User.genererID(), "harry",   "harry@mail.com",
+                BCrypt.hashpw("password123", BCrypt.gensalt()), LocalDateTime.now()));
+        store.add(new User(User.genererID(), "camille", "camille@mail.com",
+                BCrypt.hashpw("password123", BCrypt.gensalt()), LocalDateTime.now()));
+        store.add(new User(User.genererID(), "leon",    "leon@mail.com",
+                BCrypt.hashpw("password123", BCrypt.gensalt()), LocalDateTime.now()));
     }
 }

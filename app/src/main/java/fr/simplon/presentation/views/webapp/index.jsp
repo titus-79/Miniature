@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="fr.simplon.domain.entities.User" %>
+<%@ page import="fr.simplon.models.User" %>
 <%
     User userSession = (User) session.getAttribute("user");
 %>
