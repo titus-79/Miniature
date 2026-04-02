@@ -35,7 +35,7 @@ public class App {
         WebResourceRoot resources = new StandardRoot(ctx);
         resources.addPreResources(new DirResourceSet(
                 resources,
-                "/presentation/views/webapp/WEB-INF/classes",
+                "/WEB-INF/classes",
                 classesFolder.getAbsolutePath(),
                 "/"));
         ctx.setResources(resources);

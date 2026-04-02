@@ -11,7 +11,7 @@ public class CommentDTO {
     private LocalDateTime createAt;
     private UserDTO user;
     private final List<CommentDTO> replies = new ArrayList<>();
-
+    private final List<LikeDTO> likes = new ArrayList<>();
 
     public CommentDTO(Long id, String comment, LocalDateTime createAt, UserDTO user) {
         this.id = id;
@@ -39,5 +39,9 @@ public class CommentDTO {
 
     public List<CommentDTO> getReplies() {
         return replies;
+    }
+
+    public List<LikeDTO> getLikes() {
+        return likes;
     }
 }

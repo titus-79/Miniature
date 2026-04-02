@@ -3,8 +3,8 @@ package fr.simplon.presentation.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import fr.simplon.application.dto.PostDTO;
 import fr.simplon.application.services.FeedService;
-import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,7 +34,7 @@ public class FeedController extends HttpServlet {
             type = "recommande";
         }
 
-        List<Post> postsTries = feedService.getRecommendedFeed();
+        List<PostDTO> postsTries = feedService.getRecommendedFeed();
 
         if (type.equals("abonne")) {
             req.setAttribute("feedTitre", "Fil abonnements");

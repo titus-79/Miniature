@@ -1,14 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="fr.simplon.domain.entities.User" %>
-<%@ page import="fr.simplon.domain.entities.Post" %>
+
 <%@ page import="java.util.List" %>
+<%@ page import="fr.simplon.application.dto.PostDTO" %>
 
 <%
     User userSession = (User) session.getAttribute("user");
     String typeActif  = (String) request.getAttribute("typeActif");
     String feedTitre  = (String) request.getAttribute("feedTitre");
     String feedVide   = (String) request.getAttribute("feedVide");
-    List<Post> posts  = (List<Post>) request.getAttribute("posts");
+    List<PostDTO> posts  = (List<PostDTO>) request.getAttribute("posts");
     if (posts == null) posts = java.util.Collections.emptyList();
     boolean connecte = userSession != null;
     String currentUrl = "/feed?type=" + (typeActif != null ? typeActif : "recommande");
@@ -85,9 +86,10 @@
         </div>
         <% } %>
 
-        <% for (Post post : posts) {
+        <% for (PostDTO post : posts) {
             boolean estAuteur = connecte && userSession.getId().equals(post.getAuthor().getId());
-            boolean dejaSuivi = connecte && !estAuteur && userSession.isFollowing(post.getAuthor());
+            boolean dejaSuivi = connecte && !estAuteur && userSession.getFollowing().stream()
+                    .anyMatch(u -> u.getId().equals(post.getAuthor().getId()));
         %>
         <article class="post-card">
 
@@ -98,7 +100,7 @@
                 <div class="post-card__meta">
                     <span class="post-card__author"><%= post.getAuthor().getUserName() %></span>
                     <span class="post-card__date">
-                        <%= post.getCreatedAt().getHour() %>h<%= String.format("%02d", post.getCreatedAt().getMinute()) %>
+                        <%= post.getCreateAt().getHour() %>h<%= String.format("%02d", post.getCreateAt().getMinute()) %>
                     </span>
                 </div>
 
@@ -126,12 +128,12 @@
 
                 <form method="post" action="/like">
                     <input type="hidden" name="postId" value="<%= post.getId() %>">
-                    <button type="submit" class="btn-submit">👍<%= post.getLikesCount()%></button>
+                    <button type="submit" class="btn-submit">👍<%= post.getLikes().size()%></button>
 
                 </form>
                     <a href="/post?id=<%= post.getId() %>" class="post-card__action">
-                        💬 <%= post.getCommentCount() > 0
-                                ? post.getCommentCount() + " commentaire" + (post.getCommentCount() > 1 ? "s" : "")
+                        💬 <%= post.getComments().size() > 0
+                                ? post.getComments().size() + " commentaire" + (post.getComments().size() > 1 ? "s" : "")
                                 : "Commenter" %>
                     </a>
                 <% } else { %>

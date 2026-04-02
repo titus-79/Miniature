@@ -1,5 +1,9 @@
 package fr.simplon.presentation.controllers;
 
+import fr.simplon.application.dto.CommentDTO;
+import fr.simplon.application.dto.CommentMapper;
+import fr.simplon.application.dto.PostDTO;
+import fr.simplon.application.dto.PostMapper;
 import fr.simplon.application.services.PostService;
 import fr.simplon.application.useCases.AddCommentUseCase;
 import fr.simplon.domain.entities.Post;
@@ -13,7 +17,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @WebServlet("/post")
 public class CommentController extends HttpServlet {
@@ -31,16 +37,24 @@ public class CommentController extends HttpServlet {
             throws ServletException, IOException {
 
         Post post = resolvePost(req, resp);
-        if (post == null)
+        if(post == null)
             return;
 
         User userSession = (User) req.getSession().getAttribute("user");
 
-        req.setAttribute("post", post);
+        PostDTO postDTO = PostMapper.toDTO(post);
+        List<CommentDTO> topComments = postService.getTopLevelComments(post)
+                .stream()
+                .map(CommentMapper::toDTO)
+                .collect(Collectors.toList());
+
+
+        req.setAttribute("post", postDTO);
         req.setAttribute("userSession", userSession);
-        req.setAttribute("topComments", post.getTopLevelCommentsSortedByDate());
+        req.setAttribute("topComments",topComments);
 
         req.getRequestDispatcher("/WEB-INF/post.jsp").forward(req, resp);
+
     }
 
     @Override

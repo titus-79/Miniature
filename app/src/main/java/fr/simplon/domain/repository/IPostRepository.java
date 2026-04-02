@@ -20,4 +20,6 @@ public interface IPostRepository {
     Comment saveComment(Comment comment);
 
     Like saveLike(Like like);
+
+
 }

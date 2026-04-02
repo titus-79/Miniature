@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class LoginControllers extends HttpServlet {
 
-    // private static final List<User> users = InMemoryUserRepository.findAll();
+
 
     private AuthService authService;
 

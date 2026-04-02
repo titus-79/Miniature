@@ -1,10 +1,12 @@
 package fr.simplon.application.services;
 
+import fr.simplon.domain.entities.Comment;
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
 import fr.simplon.domain.repository.IPostRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class PostService {
@@ -23,6 +25,10 @@ public class PostService {
         return postRepository.save(
                 new Post(null, title, content,
                         LocalDateTime.now(), false, author));
+    }
+
+    public List<Comment> getTopLevelComments(Post post){
+        return post.getTopLevelCommentsSortedByDate();
     }
 
 }

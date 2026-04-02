@@ -2,7 +2,8 @@ package fr.simplon.application.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import fr.simplon.domain.entities.Post;
+import fr.simplon.application.dto.PostDTO;
+import fr.simplon.application.dto.PostMapper;
 import fr.simplon.domain.entities.User;
 import fr.simplon.domain.repository.IPostRepository;
 
@@ -14,21 +15,20 @@ public class FeedService {
         this.postRepository = postRepository;
     }
 
-    private List<Post> getPost() {
-        return postRepository.findAll();
-    }
-
-    private List<Post> postTries(List<Post> posts) {
-        return posts.stream()
-                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+    private List<PostDTO> getPost() {
+        return postRepository.findAll().stream()
+                .sorted((a, b)-> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                .map(PostMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<Post> getRecommendedFeed() {
-        return postTries(getPost());
+
+
+    public List<PostDTO> getRecommendedFeed() {
+        return getPost();
     }
 
-    private List<Post> postUserFollow(List<Post> posts, List<User> following) {
+    private List<PostDTO> postUserFollow(List<PostDTO> posts, List<User> following) {
         posts = posts.stream()
                 .filter(p -> following.stream()
                         .anyMatch(u -> u.getId().equals(p.getAuthor().getId())))
@@ -36,7 +36,7 @@ public class FeedService {
         return posts;
     }
 
-    public List<Post> getFollowingFeed(User userSession) {
+    public List<PostDTO> getFollowingFeed(User userSession) {
         return postUserFollow(getRecommendedFeed(), userSession.getFollowing());
     }
 
