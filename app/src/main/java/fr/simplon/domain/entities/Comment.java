@@ -13,6 +13,7 @@ public class Comment {
     private Post post;
     private Comment parentComment;
     private final List<Comment> replies = new ArrayList<>();
+    private static long compteur = 0L;
     private final List<Like> likes = new ArrayList<>();
 
     public Comment(Long id, String comment, LocalDateTime createAt,
@@ -38,6 +39,10 @@ public class Comment {
 
     public boolean isTopLevel() {
         return parentComment == null;
+    }
+
+    public static long genererID() {
+        return compteur++;
     }
 
     public Long getId() {

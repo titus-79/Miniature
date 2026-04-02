@@ -1,7 +1,9 @@
 package fr.simplon.application.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import fr.simplon.domain.entities.Post;
 import fr.simplon.domain.entities.User;
 import fr.simplon.domain.repository.IPostRepository;
@@ -40,4 +42,9 @@ public class FeedService {
         return postUserFollow(getRecommendedFeed(), userSession.getFollowing());
     }
 
+    public void createPost(String title, String content, User userSession) {
+        postRepository.save(new Post(Post.genererID(), title, content,
+                LocalDateTime.now(), false, userSession));
+
+    }
 }

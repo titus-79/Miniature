@@ -19,31 +19,27 @@ public class LikePostUseCase {
     public void togglePostLike(Long postId, User user) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("Post introuvable : " + postId));
-
         boolean dejaLike = post.getLikes().stream()
                 .anyMatch(l -> l.getUser().getId().equals(user.getId()));
-
         if (dejaLike) {
             post.getLikes().removeIf(l -> l.getUser().getId().equals(user.getId()));
         } else {
-            Like like = postRepository.saveLike(new Like(null, LocalDateTime.now(), null, user));
-            post.addLike(like);
+            post.addLike(new Like(Like.genererId(), LocalDateTime.now(), null, user));
         }
+
     }
 
     public void toggleCommentLike(Long commentId, User user) {
         Comment comment = postRepository.findCommentById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("Commentaire introuvable : " + commentId));
-
         boolean dejaLike = comment.getLikes().stream()
                 .anyMatch(l -> l.getUser().getId().equals(user.getId()));
-
         if (dejaLike) {
             comment.getLikes().removeIf(l -> l.getUser().getId().equals(user.getId()));
         } else {
-            Like like = postRepository.saveLike(new Like(null, LocalDateTime.now(), null, user));
-            comment.addLike(like);
+            comment.addLike(new Like(Like.genererId(), LocalDateTime.now(), null, user));
         }
+
     }
 
 }

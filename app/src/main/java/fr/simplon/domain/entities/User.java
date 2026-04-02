@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String passwordHash;
     private LocalDateTime createAt;
+    private static long compteur = 0L;
     private final List<User> following = new ArrayList<>();
 
     public User(Long id, String userName, String email,
@@ -92,4 +93,7 @@ public class User {
                 + ", passwordHash=" + passwordHash + ", createAt=" + createAt + "]";
     }
 
+    public static long genererID() {
+        return compteur++;
+    }
 }
